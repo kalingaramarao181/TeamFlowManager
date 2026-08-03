@@ -1,0 +1,54 @@
+.summary-cards-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.summary-card {
+  flex: 1;
+  min-width: 180px;
+  max-width: 250px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  border-left: 6px solid #2196f3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+.summary-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.summary-card h4 {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-card p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

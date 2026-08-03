@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+node_modules/
+client/build/
+*.log
+.DS_Store
+Thumbs.db
+team_flow_manager.sql
+*.sql

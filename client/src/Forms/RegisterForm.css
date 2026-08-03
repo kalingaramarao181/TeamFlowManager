@@ -1,0 +1,160 @@
+.order-login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 20px 40px;
+  border-radius: 20px;
+}
+
+.cvb-signup-heading {
+  font-size: 2rem;
+  margin: 0px;
+  color: #4a00e0;
+  text-align: center;
+  width: 400px;
+}
+
+.cvb-login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  color: #4a00e0;
+}
+
+.cvb-login-label {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #4a00e0;
+}
+
+.cvb-login-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #4a00e0;
+}
+
+.cvb-login-input:focus {
+  outline: none;
+  border-color: #6b24fa;
+}
+
+.login-popup-login-button {
+  background-color: #4a00e0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-popup-login-button:hover {
+  background-color: #6014f8;
+}
+
+.order-login-forgot-password {
+  font-size: 0.9rem;
+  margin: 0px;
+  color: #4a00e0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.order-login-signup {
+  font-size: 0.9rem;
+  margin: 0px;
+  color: #4a00e0;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.order-login-signup span {
+  color: #e47a02;
+}
+.signup-otp-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+}
+.signup-otp-input {
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-bottom: 10px;
+}
+
+.student-signup-content {
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  width: 50%;
+  height: 70%;
+  overflow-y: auto;
+}
+
+.student-signup-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.student-signup-content::-webkit-scrollbar-thumb {
+  background-color: #6119f1;
+  border-radius: 10px;
+}
+
+.student-signup-content::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+.success-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.success-popup-header-container {
+  background: white;
+  border-radius: 10px;
+  position: relative;
+  padding: 20px;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #4a00e0;
+}
+
+.success-popup-header-container button {
+  margin-top: 10px;
+  padding: 5px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.success-popup-header-container button:hover {
+  background-color: #45a049;
+}

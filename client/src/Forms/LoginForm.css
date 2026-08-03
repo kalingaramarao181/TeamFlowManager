@@ -1,0 +1,159 @@
+.tfm-login-heading {
+    font-size: 2rem;
+    margin: 0px;
+    color: #010433;
+    width: 360px;
+    text-align: center;
+}
+
+.tfm-login-form{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    color: #010433;
+}
+
+.tfm-login-label{
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #010433;
+}
+
+.tfm-login-input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #010433;
+}
+
+.tfm-login-input:focus{
+    outline: none;
+    border-color: #010433;
+}
+
+.login-popup-login-button {
+    background: linear-gradient(90deg, #010975, #010433);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-popup-login-button:hover {
+    background-color: #050d7c;
+}
+
+
+.student-signup-content {
+    margin: 0 auto;
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 50%;
+    height: 70%;
+    overflow-y: auto;
+  }
+
+  .student-signup-content::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  .student-signup-content::-webkit-scrollbar-thumb {
+    background-color: #010433;
+    border-radius: 10px;
+  }
+  
+  .student-signup-content::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+  }
+
+  .login-error-message {
+    font-size: 0.9rem;
+    margin: 0px;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+
+  .tfm-edu-mandatory{
+    color: red;
+    font-size: 0.8rem;
+    margin-left: 2px;
+  }
+
+  @media (max-width: 768px) {
+  .tfm-login-heading {
+    font-size: 1.5rem;
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .tfm-login-form {
+    padding: 15px;
+    max-width: 100%;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .tfm-login-input {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+
+  .login-popup-login-button {
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  .student-signup-content {
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tfm-login-heading {
+    font-size: 1.3rem;
+  }
+
+  .tfm-login-form {
+    padding: 1rem;
+  }
+
+  .login-popup-login-button {
+    padding: 8px;
+    font-size: 0.95rem;
+    border-radius: 20px;
+  }
+
+  .tfm-login-input {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .login-error-message {
+    font-size: 0.85rem;
+  }
+}
+
+.tfm-signup-button{
+    background-color: transparent;
+    color: rgb(14, 1, 61);
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}

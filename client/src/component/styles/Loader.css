@@ -1,0 +1,64 @@
+.tfm-loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #eef2f7;
+}
+
+.tfm-loader-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.project {
+  background-color: #007bff;
+  animation-delay: 0s;
+}
+
+.team {
+  background-color: #28a745;
+  animation-delay: 0.2s;
+}
+
+.task {
+  background-color: #ffc107;
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.tfm-loader-text {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  animation: tfmFadeInText 2s ease-in-out infinite;
+}
+
+@keyframes tfmFadeInText {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}

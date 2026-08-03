@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Timesheet Approved</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #f0fdf4;
+      }
+
+      .box {
+        background: white;
+        padding: 50px;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+        animation: pop 0.6s ease;
+      }
+
+      @keyframes pop {
+        from {
+          transform: scale(0.7);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      h1 {
+        color: #16a34a;
+        margin-bottom: 10px;
+      }
+
+      p {
+        color: gray;
+        font-size: 14px;
+      }
+
+      .icon {
+        font-size: 70px;
+        margin-bottom: 15px;
+        animation: bounce 1s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="box">
+      <div class="icon">
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" fill="#DCFCE7" />
+          <path
+            d="M8 12.5L10.5 15L16 9"
+            stroke="#16A34A"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <h1>Timesheet Approved!</h1>
+      <p>Status updated successfully in TeamFlow Manager.</p>
+    </div>
+  </body>
+</html>

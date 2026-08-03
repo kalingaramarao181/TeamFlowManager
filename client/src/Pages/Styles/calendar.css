@@ -1,0 +1,155 @@
+.calendar-container{
+  background:#ffffff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  width:100%;
+  overflow-y:auto;
+  height:76vh;
+
+  -ms-overflow-style: none;
+
+  scrollbar-width: none;
+}
+
+.calendar-container::-webkit-scrollbar{
+  display:none;
+}
+
+
+/* header */
+.fc-toolbar-title{
+  font-size:24px;
+  font-weight:600;
+}
+
+/* buttons */
+.fc-button{
+  background:#0aa4d6 !important;
+  border:none !important;
+  border-radius:6px !important;
+}
+
+.fc-daygrid-day{
+    font-weight: bold;
+    color: #0aa4d6;
+}
+
+/* hover effect */
+.fc-daygrid-day:hover{
+  background:#f4f8fb;
+  transition:0.2s;
+}
+
+/* event style */
+.fc-event{
+  background:#d8d3d3;
+  border:none;
+  padding:2px 5px;
+  border-radius:6px;
+  margin-right: 10px;
+  text-align: center;
+  font-weight: bold;
+  height: 30px;
+  margin-bottom: 0px;
+}
+
+.fc-toolbar {
+  margin-bottom: 20px;
+}
+
+.fc-button-group {
+  gap: 8px;
+}
+
+/* space between header and calendar */
+.fc-toolbar {
+  margin-bottom: 25px;
+}
+
+/* spacing between buttons */
+.fc-toolbar .fc-button {
+  margin-right: 6px;
+  border-radius: 6px !important;
+}
+
+/* center title spacing */
+.fc-toolbar-title {
+  padding: 0 15px;
+}
+
+/* weekend highlight */
+.weekend-day{
+  background:#f3f6f9;
+  font-weight: bold;
+  color: red;
+}
+
+.fc-daygrid-day {
+  cursor: pointer;
+}
+
+.user-view .fc-daygrid-day {
+  cursor: default;
+}
+
+/* modal */
+.holiday-modal{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  width:300px;
+    z-index:1000;
+}
+
+.calendar-selector{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.calendar-selector select{
+  padding:6px 12px;
+  border-radius:6px;
+  width: 150px;
+  border:1px solid #ddd;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.calendar-selector select:focus{
+  outline:none;
+  border-color:#0aa4d6;
+}
+
+.holiday-modal input{
+  width:100%;
+  padding:8px;
+  margin-top:10px;
+  border:1px solid #ddd;
+  border-radius:6px;
+}
+
+.modal-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.modal-buttons button{
+  padding:7px 12px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.delete-btn{
+  background:#ff4d4f;
+  color:white;
+}

@@ -1,0 +1,106 @@
+.employee-status-container {
+  padding: 20px;
+  background: #f7f9fc;
+  border-radius: 12px;
+  max-width: 100%;
+  width: 100%;
+}
+
+h2, h3 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.work-status-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.work-status-form select,
+.work-status-form input[type="text"],
+.work-status-form input[type="file"],
+.work-status-form button {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 150px;
+  font-size: 14px;
+}
+
+.work-status-form button {
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.work-status-form button:hover {
+  background: #0056b3;
+}
+
+.status-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.status-table th,
+.status-table td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  text-align: center;
+}
+
+.status-table thead {
+  background: #f0f0f0;
+}
+
+.status-cell.completed {
+  background: #d4edda;
+  color: #155724;
+  font-weight: bold;
+}
+
+.status-cell.progress {
+  background: #fff3cd;
+  color: #856404;
+  font-weight: bold;
+}
+
+.file-preview-list {
+  margin-top: 1rem;
+}
+
+.file-preview-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.file-preview-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.file-preview-list button {
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .work-status-form {
+    flex-direction: column;
+  }
+
+  .work-status-form select,
+  .work-status-form input,
+  .work-status-form button {
+    width: 100%;
+  }
+}

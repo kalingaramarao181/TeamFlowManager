@@ -1,0 +1,291 @@
+/* General Styles */
+.teamflow-home {
+  font-family: "Segoe UI", sans-serif;
+  background: #f9fbfd;
+  color: #333;
+  overflow-x: hidden;
+  margin-top: 10px;
+}
+
+/* Hero Section */
+.teamflow-hero-section {
+  background: url('/public/images/bg.jpg') no-repeat center center/cover;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px;
+  color: rgb(6, 67, 75);
+  animation: fadeIn 0.2s ease-out;
+  height: 60vh;
+}
+
+.teamflow-animated-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.teamflow-animated-para {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.teamflow-cta-button,
+.teamflow-secondary-button {
+  background-color:  #6bc1e2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.teamflow-cta-button:hover,
+.teamflow-secondary-button:hover {
+  background-color: #0056b3;
+  transform: scale(0.05);
+}
+
+/* Image + Text Section */
+.teamflow-image-text-section,
+.teamflow-text-image-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 60px 5%;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease-out;
+  gap: 40px;
+}
+
+.teamflow-image-text-section:hover,
+.teamflow-text-image-section:hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.teamflow-images-left,
+.teamflow-images-right {
+  flex: 1;
+  position: relative;
+  min-width: 300px;
+  margin: 10px;
+}
+
+.teamflow-overlay-img1 {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.teamflow-overlay-img2 {
+  width: 70%;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.teamflow-content-right,
+.teamflow-text-left {
+  flex: 1;
+  padding: 20px;
+  min-width: 300px;
+}
+
+.teamflow-section-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2a5566;
+}
+
+.teamflow-section-desc {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Cards Section */
+.teamflow-cards-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 80px 5%;
+  gap: 30px;
+}
+
+.teamflow-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  width: 280px;
+  transition: transform 0.4s;
+}
+
+.teamflow-card:hover {
+  transform: translateY(-10px);
+}
+
+.teamflow-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Showcase Section */
+.teamflow-image-showcase {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 60px 5%;
+  background: #eef3f8;
+}
+
+.teamflow-image-showcase img {
+  width:30vw;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.teamflow-image-showcase img:hover {
+  transform: scale(1.1);
+}
+
+/* Project Highlights */
+.teamflow-project-highlight-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 80px 5%;
+}
+
+.teamflow-project-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 300px;
+}
+
+.teamflow-project-gallery img {
+  width: 90px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 0.3s;
+}
+
+.teamflow-project-gallery img:hover {
+  transform: scale(1.08);
+}
+
+.teamflow-highlight-text {
+  flex: 1;
+  padding: 20px;
+  min-width: 300px;
+  text-align: center;
+}
+
+.teamflow-highlight-title {
+  font-size: 2rem;
+  color: #2a5566;
+}
+
+.teamflow-highlight-sub {
+  font-weight: 600;
+  color: black;
+}
+
+.teamflow-highlight-desc {
+  margin: 10px 0 20px;
+  color: #444;
+}
+
+/* FAQ Section */
+.teamflow-faq-section {
+  padding: 60px 5%;
+  background: #f0f4f8;
+}
+
+.teamflow-faq-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #2a5566;
+}
+
+.teamflow-faq-list {
+  list-style: none;
+  padding: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.teamflow-faq-item {
+  background: white;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.teamflow-faq-item.open {
+  background-color: #e6f0ff;
+}
+
+.teamflow-faq-question {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.teamflow-faq-answer {
+  margin-top: 10px;
+  color: #444;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .teamflow-image-text-section,
+  .teamflow-text-image-section,
+  .teamflow-project-highlight-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .teamflow-project-gallery {
+    justify-content: center;
+  }
+}

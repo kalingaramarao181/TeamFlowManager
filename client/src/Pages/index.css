@@ -1,0 +1,164 @@
+/* General Layout */
+.tfm-db-page-container {
+  padding: 20px;
+  background-color: #f9fafc;
+  width: 100%;
+}
+
+.tfm-db-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tfm-filter-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.tfm-filter-dropdown,
+.tfm-filter-input {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 14px;
+  width: 200px;
+}
+
+.tfm-filter-icon {
+  color: #374151;
+  font-size: 16px;
+}
+
+/* Table Styles */
+.tfm-table-container {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.tfm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tfm-table thead {
+  background-color: #f1f5f9;
+}
+
+.tfm-table th,
+.tfm-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.tfm-table th {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.tfm-issue-key {
+  cursor: pointer;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.tfm-issue-key:hover {
+  text-decoration: underline;
+}
+
+.project-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.project-name-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.more-actions-cell {
+  position: relative;
+}
+
+.more-actions-dots {
+  cursor: pointer;
+  font-size: 20px;
+  color: #6b7280;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 160px;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f9fafb;
+}
+
+.no-logo {
+  font-style: italic;
+  color: #9ca3af;
+}
+
+.tfm-filter-button {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.tfm-filter-button:hover {
+  background-color: #2563eb;
+}
+
+.tfm-download-button {
+  padding: 8px 16px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.tfm-download-button:hover {
+  background-color: #059669;
+}
+

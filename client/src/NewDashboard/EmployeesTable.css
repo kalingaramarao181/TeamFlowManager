@@ -1,0 +1,40 @@
+.employees-table-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.employees-table th,
+.employees-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.employees-table th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+}
+
+.status.working {
+  color: green;
+  font-weight: bold;
+}
+
+.status.idle {
+  color: orange;
+  font-weight: bold;
+}
+
+.status.offline {
+  color: red;
+  font-weight: bold;
+}

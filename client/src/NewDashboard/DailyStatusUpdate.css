@@ -1,0 +1,89 @@
+.daily-status-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.daily-status-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.status-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.status-card {
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.status-card:hover,
+.status-card.active {
+  background: #ff8c00;
+  color: white;
+  border-color: #ff8c00;
+}
+
+.work-section {
+  background: #f0f0f0;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.field {
+  margin-bottom: 1.2rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.field select,
+.field textarea,
+.field input[type="file"] {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  padding: 0.8rem 2rem;
+  background: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #e07600;
+}
+
+.updates-list h3 {
+  margin-top: 2rem;
+}
+
+.update-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0.8rem 0;
+  background: #fff;
+}
