@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use( 
   (config) => {
-    const token = Cookies.get("jwtToken");
+    const token = Cookies.get('teamflowToken') || Cookies.get("jwtToken");
 
     // Allow these public routes without token
     const publicRoutes = ["/login", "/register", "/send-otp", "/verify-otp"];

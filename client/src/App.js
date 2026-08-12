@@ -5,6 +5,7 @@ import "./App.css";
 import Dashboard from "./Pages/Dashboard";
 import TeamFlowHome from "./Pages/Home";
 import Secure from "./component/Secure";
+import E2ESsoBridge from './component/E2ESsoBridge';
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/dashboard/*" element={<Dashboard/>} />
           </Route>
           <Route path="/" element={<TeamFlowHome/>} />
+          <Route path="/e2e-sso" element={<E2ESsoBridge/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,7 @@
-const express = require('express');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env.sso') });
+require("dotenv").config({ path: path.join(__dirname, ".env") });
+const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes')
@@ -10,7 +12,7 @@ const statusReportRoutes = require('./routes/statusReportRoutes');
 const authRoutes = require('./routes/authRoutes');
 const timeSheetRoutes = require('./routes/timeSheetRoutes');
 const holidayRoutes = require("./routes/holidayRoutes");
-require("dotenv").config();
+const ssoRoutes = require('./routes/ssoRoutes');
 
 const app = express();
 
@@ -23,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:3000")
+const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:3001")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -54,6 +56,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
 
 app.use("/api", userRoutes);
 app.use("/api", authRoutes);
+app.use('/api', ssoRoutes);
 app.use("/api", issueRoutes);
 app.use("/api", projectRoutes)
 app.use("/api", reportRoutes);

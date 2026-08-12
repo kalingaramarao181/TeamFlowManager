@@ -6,7 +6,7 @@ import { getResources } from "../api/authApi";
 import Loader from "./Loader";
 
 const Secure = () => {
-  const token = Cookies.get("jwtToken");
+  const token = Cookies.get('teamflowToken') || Cookies.get("jwtToken");
   const location = useLocation();
   const [allowed, setAllowed] = useState(null); // null = loading, false = denied, true = allowed
 
@@ -23,7 +23,7 @@ const Secure = () => {
 
         if (decodedToken.exp < currentTime) {
           alert("Session expired. Please log in again.");
-          Cookies.remove("jwtToken");
+          Cookies.remove('teamflowToken'); Cookies.remove("jwtToken");
           setAllowed(false);
           return;
         }
@@ -57,7 +57,7 @@ const Secure = () => {
         }
       } catch (error) {
         console.error("Access verification failed:", error);
-        Cookies.remove("jwtToken");
+        Cookies.remove('teamflowToken'); Cookies.remove("jwtToken");
         setAllowed(false);
       }
     };
