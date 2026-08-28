@@ -193,9 +193,10 @@ const PasswordUpdate = ({ handleTabClick }) => {
   };
 
   return (
-    <div>
+    <div className="auth-box auth-password-card">
       {!isOtpSent ? (
-        <form onSubmit={handleSendOtp}>
+        <form onSubmit={handleSendOtp} className="auth-form-panel">
+          <h2 className="auth-card-title">Reset password</h2>
           <input
             name="email"
             type="email"
@@ -210,7 +211,8 @@ const PasswordUpdate = ({ handleTabClick }) => {
           </button>
         </form>
       ) : !isOtpVerified ? (
-        <div>
+        <div className="auth-form-panel">
+          <h2 className="auth-card-title">Verify OTP</h2>
           <p className="otp-heading-text">Enter OTP sent to your email</p>
           <div className="otp-container">
             {otp.map((value, index) => (
@@ -236,7 +238,8 @@ const PasswordUpdate = ({ handleTabClick }) => {
           </button>
         </div>
       ) : (
-        <div>
+        <div className="auth-form-panel">
+          <h2 className="auth-card-title">Set new password</h2>
           <input
             type="password"
             name="password"

@@ -3,16 +3,14 @@ import "./RegisterForm.css";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { sendOtp, verifyOtp, registerUser } from "../api/authApi";
-import FormView from "./FormView";
 
-const RegisterForm = ({ isPopupOpen, closePopup }) => {
+const RegisterForm = ({ isPopupOpen, closePopup, setOpenForm }) => {
   const [formData, setFormData] = useState({});
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [openForm, setOpenForm] = useState(null);
 
   const validateEmail = () => {
     const emailRegex = /\S+@\S+\.\S+/;
@@ -112,82 +110,87 @@ const RegisterForm = ({ isPopupOpen, closePopup }) => {
   };
 
   return (
-    <>
-      <h2 className="cvb-signup-heading">Sign Up</h2>
-      <form
-        className="cvb-login-form"
-        onSubmit={!isOtpSent ? handleSendOtp : handleVerifyOtp}
-      >
-        <label className="cvb-login-label">Full Name <span className='cvb-edu-mandatory'>*</span></label>
-        <input
-          type="text"
-          className="cvb-login-input"
-          placeholder="Enter your name"
-          value={formData.name || ""}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          required
-        />
-        <label className="cvb-login-label">Email <span className='cvb-edu-mandatory'>*</span></label>
-        <input
-          type="email"
-          className="cvb-login-input"
-          placeholder="Enter your email"
-          value={formData.email || ""}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-        <label className="cvb-login-label">Password <span className='cvb-edu-mandatory'>*</span></label>
-        <input
-          type="password"
-          className="cvb-login-input"
-          placeholder="Enter your password"
-          value={formData.password || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-          required
-        />
-        <label className="cvb-login-label">Confirm Password <span className='cvb-edu-mandatory'>*</span></label>
-        <input
-          type="password"
-          className="cvb-login-input"
-          placeholder="Confirm your password"
-          value={formData.confirmPassword || ""}
-          onChange={(e) =>
-            setFormData({ ...formData, confirmPassword: e.target.value })
-          }
-          required
-        />
-
-        {isOtpSent && (
-          <div className="signup-otp-container">
-            <input
-              type="text"
-              maxLength="6"
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="cvb-login-input"
-            />
-          </div>
-        )}
-
-        <button
-          type="submit"
-          className="login-popup-login-button"
-          disabled={loading}
+    <div className="cvb-auth-card">
+      <div className="cvb-auth-inner">
+        <h2 className="cvb-signup-heading">Create account</h2>
+        <form
+          className="cvb-login-form"
+          onSubmit={!isOtpSent ? handleSendOtp : handleVerifyOtp}
         >
-          {loading
-            ? isOtpSent
-              ? "Verifying..."
-              : "Sending..."
-            : isOtpSent
-            ? "Verify OTP"
-            : "Send OTP"}
-        </button>
-        {errorMessage && <p className="order-error-message">{errorMessage}</p>}
-      </form>
-      <p>Have an account? Keep<button onClick={() => setOpenForm("signin")} className="tfm-signup-button">Login Here</button></p>
+          <label className="cvb-login-label">Full Name <span className='cvb-edu-mandatory'>*</span></label>
+          <input
+            type="text"
+            className="cvb-login-input"
+            placeholder="Enter your name"
+            value={formData.name || ""}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+          />
+          <label className="cvb-login-label">Email <span className='cvb-edu-mandatory'>*</span></label>
+          <input
+            type="email"
+            className="cvb-login-input"
+            placeholder="Enter your email"
+            value={formData.email || ""}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+          <label className="cvb-login-label">Password <span className='cvb-edu-mandatory'>*</span></label>
+          <input
+            type="password"
+            className="cvb-login-input"
+            placeholder="Enter your password"
+            value={formData.password || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+            required
+          />
+          <label className="cvb-login-label">Confirm Password <span className='cvb-edu-mandatory'>*</span></label>
+          <input
+            type="password"
+            className="cvb-login-input"
+            placeholder="Confirm your password"
+            value={formData.confirmPassword || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, confirmPassword: e.target.value })
+            }
+            required
+          />
+
+          {isOtpSent && (
+            <div className="signup-otp-container">
+              <input
+                type="text"
+                maxLength="6"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="cvb-login-input"
+              />
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="login-popup-login-button"
+            disabled={loading}
+          >
+            {loading
+              ? isOtpSent
+                ? "Verifying..."
+                : "Sending..."
+              : isOtpSent
+              ? "Verify OTP"
+              : "Send OTP"}
+          </button>
+          {errorMessage && <p className="order-error-message">{errorMessage}</p>}
+        </form>
+        <div className="cvb-auth-footer">
+          <span>Have an account?</span>
+          <button onClick={() => setOpenForm("signin")} className="tfm-signup-button">Login Here</button>
+        </div>
+      </div>
       {showSuccessPopup && (
         <div className="success-popup">
           <div className="success-popup-header-container">
@@ -196,8 +199,7 @@ const RegisterForm = ({ isPopupOpen, closePopup }) => {
           </div>
         </div>
       )}
-      <FormView openForm={openForm} setOpenForm={setOpenForm} />
-    </>
+    </div>
   );
 };
 

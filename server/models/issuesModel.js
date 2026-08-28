@@ -132,7 +132,7 @@ WHERE issues.id = ?`,
       if (!roleResult.length) return reject(new Error("User not found"));
 
       const userRole = roleResult[0].role;
-      const isAdmin = userRole === "admin"; // adjust if role names differ
+      const isAdmin = ["admin", "super_admin"].includes(userRole);
 
       // Step 2: Build issue query
       let query = `
@@ -149,7 +149,7 @@ WHERE issues.id = ?`,
 
       const params = [];
 
-      // ✅ If not admin, filter only by assigned issues
+      // Regular users only see issues assigned to them
       if (!isAdmin) {
         query += " AND issues.assignee = ?";
         params.push(userId);
@@ -186,7 +186,7 @@ WHERE issues.id = ?`,
       if (!roleResult.length) return reject(new Error("User not found"));
 
       const userRole = roleResult[0].role;
-      const isAdmin = userRole === "admin";
+      const isAdmin = ["admin", "super_admin"].includes(userRole);
 
       // Step 2: Build count query
       let query = `

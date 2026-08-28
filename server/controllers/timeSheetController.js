@@ -33,10 +33,16 @@ exports.submitTimesheet = async (req, res) => {
     const dailyTotals = Object.fromEntries(days.map((day) => [day, 0]));
     const seen = new Set();
     for (const entry of data.entries) {
-      if (!entry.project_id || !String(entry.task_name || "").trim() || !String(entry.worked_on || "").trim()) {
-        return res.status(400).json({ success: false, message: "Project, task, and work description are required" });
+      const entryType = String(entry.entry_type || "project").toLowerCase();
+      if (!["project", "leave", "training"].includes(entryType)) {
+        return res.status(400).json({ success: false, message: "Entry type must be project, leave, or training" });
       }
-      const duplicateKey = `${entry.project_id}:${String(entry.task_name).trim().toLowerCase()}`;
+      if ((entryType === "project" && !entry.project_id) || !String(entry.task_name || "").trim() || !String(entry.worked_on || "").trim()) {
+        return res.status(400).json({ success: false, message: "A project is required for project entries; activity and description are required for all entries" });
+      }
+      entry.entry_type = entryType;
+      entry.project_id = entryType === "project" ? Number(entry.project_id) : null;
+      const duplicateKey = [entryType, entry.project_id || "", String(entry.task_name).trim().toLowerCase()].join(":");
       if (seen.has(duplicateKey)) {
         return res.status(400).json({ success: false, message: "Duplicate project and task entries are not allowed" });
       }
@@ -57,8 +63,8 @@ exports.submitTimesheet = async (req, res) => {
       return res.status(400).json({ success: false, message: "Weekly hours must be between 1 and 168" });
     }
 
-    const projectIds = [...new Set(data.entries.map((entry) => Number(entry.project_id)))];
-    const validProjects = await TimeSheetModel.validateProjectIds(projectIds);
+    const projectIds = [...new Set(data.entries.filter((entry) => entry.entry_type === "project").map((entry) => Number(entry.project_id)))];
+    const validProjects = projectIds.length ? await TimeSheetModel.validateProjectIds(projectIds) : [];
     if (validProjects.length !== projectIds.length) {
       return res.status(400).json({ success: false, message: "One or more projects are invalid" });
     }
@@ -74,57 +80,49 @@ exports.submitTimesheet = async (req, res) => {
     // ✅ 1. Save Timesheet in DB
     await TimeSheetModel.saveWeeklyTimesheet(data);
 
-    // ✅ 2. Fetch Saved Rows
-    const dailyWork = await TimeSheetModel.getWorkbyWeekNumber(
-      data.user_id,
-      data.week_no,
-      data.year,
-    );
+    let emailSent = false;
 
-    const savedRows = await TimeSheetModel.getWeeklyTimesheet(
-      data.user_id,
-      data.week_no,
-      data.year,
-    );
+    try {
+      const [dailyWork, savedRows] = await Promise.all([
+        TimeSheetModel.getWorkbyWeekNumber(data.user_id, data.week_no, data.year),
+        TimeSheetModel.getWeeklyTimesheet(data.user_id, data.week_no, data.year),
+      ]);
+      const timesheetId = savedRows[0].id;
+      const approveToken = generateTimesheetToken(timesheetId, "approve");
+      const rejectToken = generateTimesheetToken(timesheetId, "reject");
+      const user = await findById(data.user_id);
+      const week = {
+        week_start: "Monday",
+        week_end: "Sunday",
+        weekNo: data.week_no,
+        year: data.year,
+      };
+      const htmlContent = generateTimesheetHTML(
+        user,
+        week,
+        dailyWork.work_status,
+        savedRows,
+        "https://beedatatech.com/home_images/beedata_logo.png",
+        approveToken,
+        rejectToken,
+      );
 
-    const timesheetId = savedRows[0].id;
-
-    const approveToken = generateTimesheetToken(timesheetId, "approve");
-    const rejectToken = generateTimesheetToken(timesheetId, "reject");
-
-    const user = await findById(data.user_id);
-
-    const week = {
-      week_start: "Monday",
-      week_end: "Sunday",
-      weekNo: data.week_no,
-      year: data.year,
-    };
-
-    // ✅ Logo URL
-    const logoUrl = "https://beedatatech.com/home_images/beedata_logo.png";
-
-    // ✅ 3. Generate HTML Page
-    const htmlContent = generateTimesheetHTML(
-      user,
-      week,
-      dailyWork.work_status,
-      savedRows,
-      logoUrl,
-      approveToken,
-      rejectToken,
-    );
-
-    // ✅ 4. Send HTML Email to Manager
-    await sendHTMLEmail(
-      process.env.TIMESHEET_APPROVER_EMAIL || "hr@bedatatech.com",
-      "Weekly Timesheet Approval Request",
-      htmlContent,
-    );
+      await sendHTMLEmail(
+        process.env.TIMESHEET_APPROVER_EMAIL || "hr@bedatatech.com",
+        "Weekly Timesheet Approval Request",
+        htmlContent,
+      );
+      emailSent = true;
+    } catch (emailError) {
+      console.warn("Timesheet saved, but approval email was not sent:", emailError.message);
+    }
 
     res.status(200).json({
       success: true,
-      message: "Timesheet Submitted & Sent to Manager ✅",
+      emailSent,
+      message: emailSent
+        ? "Timesheet submitted and confirmation email sent to the manager."
+        : "Timesheet submitted successfully, but the confirmation email could not be sent.",
     });
   } catch (error) {
     console.log("Submit Timesheet Error:", error);

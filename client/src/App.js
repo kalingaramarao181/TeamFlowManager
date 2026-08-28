@@ -6,9 +6,10 @@ import Dashboard from "./Pages/Dashboard";
 import TeamFlowHome from "./Pages/Home";
 import Secure from "./component/Secure";
 import E2ESsoBridge from './component/E2ESsoBridge';
+import { PermissionProvider } from "./auth/PermissionContext";
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter><PermissionProvider>
       <Routes>
         {/* Public Routes */}
           {/* <Route path="/issues/:issueId" element={<IssueDetails />} /> */}
@@ -19,7 +20,7 @@ function App() {
           <Route path="/" element={<TeamFlowHome/>} />
           <Route path="/e2e-sso" element={<E2ESsoBridge/>} />
       </Routes>
-    </BrowserRouter>
+    </PermissionProvider></BrowserRouter>
   );
 }
 

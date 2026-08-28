@@ -8,11 +8,10 @@ import PasswordUpdate from "./PasswordUpdateForm";
 import ProjectDocument from "./ProjectDocument";
 import UploadReport from "./UploadReport";
 
-const FormView = ({ openForm, setOpenForm, currentUserId, projectId, issueId,  updateProjectData, updateIssueData}) => {
-  // const [form, setForm] = useState({})
-  // console.log();
+import "./index.css";
 
-  
+const FormView = ({ openForm, setOpenForm, currentUserId, projectId, issueId,  updateProjectData, updateIssueData}) => {
+  const closePopup = () => setOpenForm(null);
 
   const renderForms = () => {
     if (openForm === "issues") {
@@ -26,11 +25,11 @@ const FormView = ({ openForm, setOpenForm, currentUserId, projectId, issueId,  u
     } else if (openForm === "teams") {
       return <TeamsForm />;
     } else if (openForm === "signin") {
-      return <LoginForm />;
+      return <LoginForm closePopup={closePopup} setOpenForm={setOpenForm} />;
     } else if (openForm === "register") {
-      return <RegisterForm />;
+      return <RegisterForm closePopup={closePopup} setOpenForm={setOpenForm} />;
     } else if (openForm === "password") {
-      return <PasswordUpdate />;
+      return <PasswordUpdate closePopup={closePopup} setOpenForm={setOpenForm} />;
     } else if (openForm === "projectDocument") {
       return <ProjectDocument setOpenForm={setOpenForm} projectId={projectId}  currentUserId={currentUserId}/>;
     } else if (openForm === "reports") {
@@ -48,7 +47,9 @@ const FormView = ({ openForm, setOpenForm, currentUserId, projectId, issueId,  u
                 X
               </button>
             </div>
-            {renderForms()}
+            <div className="tf-form-popup-content">
+              {renderForms()}
+            </div>
           </div>
         </div>
       )}

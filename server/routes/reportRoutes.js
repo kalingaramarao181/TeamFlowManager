@@ -1,9 +1,9 @@
-const express = require('express');
+﻿const express = require('express');
 const { getAllReports, getReportsByUserId, uploadReport  } = require('../controllers/reportsController');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const { protect, authorize } = require('../middlewares/authMiddleware');
+const { protect, authorize, authorizeResource } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -26,11 +26,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.get('/reports', protect, authorize(["admin", "manager"]), getAllReports);
-router.post('/reports', protect, upload.single('file'), uploadReport);
-router.get('/reports/user/:userId', protect, getReportsByUserId)
+router.get('/reports', protect, authorizeResource('reports'), getAllReports);
+router.post('/reports', protect, authorizeResource('reports','can_create'), upload.single('file'), uploadReport);
+router.get('/reports/user/:userId', protect, authorizeResource('reports'), getReportsByUserId)
 
 
 
 
 module.exports = router;
+

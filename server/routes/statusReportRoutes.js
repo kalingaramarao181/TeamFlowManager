@@ -1,9 +1,9 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const { protect, authorize } = require('../middlewares/authMiddleware');
+const { protect, authorize, authorizeResource } = require('../middlewares/authMiddleware');
 const { getOverview } = require("../controllers/dashboardController");
 
 const {
@@ -37,20 +37,21 @@ const upload = multer({
 });
 
 // Routes
-router.get('/dashboard/overview', protect, getOverview);
+router.get('/dashboard/overview', protect, authorizeResource('work'), getOverview);
 
-router.post('/employee-reports/login', protect, submitLogin);
+router.post('/employee-reports/login', protect, authorizeResource('work','can_create'), submitLogin);
 
-router.post('/employee-reports/logout', protect, upload.array('files'), submitLogout);
+router.post('/employee-reports/logout', protect, authorizeResource('work','can_create'), upload.array('files'), submitLogout);
 
-router.get('/employee-reports/status/:userId', protect, getTodayStatus);
+router.get('/employee-reports/status/:userId', protect, authorizeResource('work'), getTodayStatus);
 
-router.get('/employee-reports/:userId', protect, getAllStatusReports);
+router.get('/employee-reports/:userId', protect, authorizeResource('work'), getAllStatusReports);
 
-router.get('/employee-reports/dashboard/data', protect, authorize(["admin", "manager"]), getAdminDashboardData);
+router.get('/employee-reports/dashboard/data', protect, authorizeResource('work'), getAdminDashboardData);
 
-router.get('/employee-reports/modules/today', protect, getTodayModules);
+router.get('/employee-reports/modules/today', protect, authorizeResource('work'), getTodayModules);
 
-router.get('/employee-reports/reports/daily-reports', protect, authorize(["admin", "manager"]), getDaywiseReports);
+router.get('/employee-reports/reports/daily-reports', protect, authorizeResource('work'), getDaywiseReports);
 
 module.exports = router;
+

@@ -15,6 +15,7 @@ import "../styles/timesheet.css";
 
 const mapRows = (rows) => rows.map((row) => ({
   id: row.id,
+  entry_type: row.entry_type || "project",
   project_id: row.project_id,
   project_name: row.project_name,
   project_key: row.project_key || "",
@@ -79,9 +80,8 @@ const WeeklyTimesheetPage = () => {
 
   const addNewRow = (rowData) => {
     if (submitted) return;
-    if (rows.some((row) => String(row.project_id) === String(rowData.project_id) &&
-      row.task_name.trim().toLowerCase() === rowData.task_name.trim().toLowerCase())) {
-      setNotice({ type: "error", text: "That project and task already exists in this week." });
+    if (rows.some((row) => (row.entry_type || "project") === rowData.entry_type && String(row.project_id || "") === String(rowData.project_id || "") && row.task_name.trim().toLowerCase() === rowData.task_name.trim().toLowerCase())) {
+      setNotice({ type: "error", text: "That time entry already exists in this week." });
       return;
     }
     const attendedWeekdays = new Set(attendanceDays.map((date) =>
@@ -106,7 +106,7 @@ const WeeklyTimesheetPage = () => {
       }));
       if (!previous.length) return setNotice({ type: "error", text: "No entries were found in the previous week." });
       setRows(previous);
-      setNotice({ type: "success", text: "Previous week projects and tasks copied." });
+      setNotice({ type: "success", text: "Previous week entries copied." });
     } catch {
       setNotice({ type: "error", text: "Previous week could not be copied." });
     }
@@ -118,9 +118,9 @@ const WeeklyTimesheetPage = () => {
     if (!window.confirm(`Submit ${totals.week} hours for week ${weekNo}?`)) return;
     setSaving(true);
     try {
-      await submitWeeklyTimesheet({ user_id: user.id, week_no: weekNo, year, entries: rows });
-      setNotice({ type: "success", text: "Timesheet submitted for manager approval." });
+      const response = await submitWeeklyTimesheet({ user_id: user.id, week_no: weekNo, year, entries: rows });
       await loadWeek();
+      setNotice({ type: "success", text: response.data.message || "Timesheet submitted for manager approval." });
     } catch (error) {
       setNotice({ type: "error", text: error?.response?.data?.message || "Timesheet submission failed." });
     } finally { setSaving(false); }
@@ -128,8 +128,8 @@ const WeeklyTimesheetPage = () => {
 
   const exportCsv = () => {
     if (!rows.length) return setNotice({ type: "error", text: "There are no entries to export." });
-    const values = [["Project", "Task", "Work", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Total"]];
-    rows.forEach((row) => values.push([row.project_name, row.task_name, row.worked_on,
+    const values = [["Type", "Project / category", "Task / activity", "Description", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Total"]];
+    rows.forEach((row) => values.push([row.entry_type || "project", row.project_name, row.task_name, row.worked_on,
       row.mon, row.tue, row.wed, row.thu, row.fri, row.sat, row.sun,
       ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].reduce((sum, day) => sum + Number(row[day] || 0), 0)]));
     const csv = values.map((line) => line.map((cell) => `"${String(cell ?? "").replaceAll('"', '""')}"`).join(",")).join("\n");
@@ -139,7 +139,7 @@ const WeeklyTimesheetPage = () => {
   };
 
   return <main className="timesheet-page enterprise-timesheet">
-    <section className="timesheet-hero"><div><span>My timesheets</span><h1>Weekly time entry</h1><p>Record project effort and submit it for approval.</p></div>
+    <section className="timesheet-hero"><div><span>My timesheets</span><h1>Weekly time entry</h1><p>Record project work, leave, and training, then submit it for approval.</p></div>
       <div className="timesheet-hero-actions"><button onClick={copyPreviousWeek} disabled={submitted}><FiCopy /> Copy previous</button><button onClick={exportCsv}><FiDownload /> Export CSV</button></div></section>
     <section className="timesheet-metrics">
       <article><FiClock /><span>Today<strong>{totals.byDay[todayKey] || 0}h</strong></span></article>

@@ -9,21 +9,32 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.request.use( 
+axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('teamflowToken') || Cookies.get("jwtToken");
+    const token =
+      Cookies.get("teamflowToken") ||
+      Cookies.get("jwtToken") ||
+      Cookies.get("token");
 
-    // Allow these public routes without token
-    const publicRoutes = ["/login", "/register", "/send-otp", "/verify-otp"];
+    const publicRoutes = [
+      "/login",
+      "/register",
+      "/send-otp",
+      "/verify-otp",
+      "/send-reset-otp",
+      "/verify-reset-otp",
+    ];
 
-    if (token && !publicRoutes.includes(config.url)) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    const requestPath = typeof config?.url === "string" ? config.url : "";
+
+    if (token && !publicRoutes.some((route) => requestPath.includes(route))) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
   },
   (error) => Promise.reject(error)
 );
-
 
 export default axiosInstance;

@@ -6,7 +6,7 @@ exports.saveWeeklyTimesheet = (data) => {
   return new Promise((resolve, reject) => {
     const query = `
       INSERT INTO weekly_timesheets
-      (user_id, week_no, year,
+      (user_id, week_no, year, entry_type,
        project_id, task_name, worked_on,
        mon_hours, tue_hours, wed_hours, thu_hours,
        fri_hours, sat_hours, sun_hours,
@@ -29,7 +29,8 @@ exports.saveWeeklyTimesheet = (data) => {
         data.user_id,
         data.week_no,
         data.year,
-        row.project_id,
+        row.entry_type || "project",
+        row.project_id || null,
         row.task_name,
         row.worked_on,
 
@@ -101,9 +102,9 @@ exports.getUserSummary = (userId) =>
 exports.getWeeklyTimesheet = (userId, weekNo, year) => {
   return new Promise((resolve, reject) => {
     const query = `
-      SELECT  p.name as project_name, t.*
+      SELECT COALESCE(p.name, CASE t.entry_type WHEN 'leave' THEN 'Leave' WHEN 'training' THEN 'Training' ELSE 'Project' END) AS project_name, t.*
       FROM weekly_timesheets t
-      JOIN projects p ON t.project_id = p.id
+      LEFT JOIN projects p ON t.project_id = p.id
       WHERE user_id = ?
         AND week_no = ?
         AND year = ?
@@ -210,7 +211,7 @@ exports.getWeeklyReports = (page, limit, filters = {}) => {
         MAX(W.status) status,
         SUM(W.total_hours) total_hours,
         COUNT(*) entry_count,
-        GROUP_CONCAT(DISTINCT P.name ORDER BY P.name SEPARATOR ', ') projects,
+        GROUP_CONCAT(DISTINCT COALESCE(P.name, CASE W.entry_type WHEN 'leave' THEN 'Leave' WHEN 'training' THEN 'Training' ELSE 'Project' END) ORDER BY COALESCE(P.name, W.entry_type) SEPARATOR ', ') projects,
         MAX(W.created_at) created_at
       FROM weekly_timesheets W
       JOIN users U ON W.user_id = U.id
@@ -289,7 +290,7 @@ exports.getAdminSummary = () => new Promise((resolve, reject) => {
 
 exports.getAdminTimesheetDetail = (timesheetId) => new Promise((resolve, reject) => {
   const query = `
-    SELECT W.*, U.full_name AS employee_name, U.email, P.name AS project_name
+    SELECT W.*, U.full_name AS employee_name, U.email, COALESCE(P.name, CASE W.entry_type WHEN 'leave' THEN 'Leave' WHEN 'training' THEN 'Training' ELSE 'Project' END) AS project_name
     FROM weekly_timesheets W
     JOIN weekly_timesheets source ON source.id = ?
       AND W.user_id = source.user_id AND W.week_no = source.week_no AND W.year = source.year

@@ -13,6 +13,9 @@ const authRoutes = require('./routes/authRoutes');
 const timeSheetRoutes = require('./routes/timeSheetRoutes');
 const holidayRoutes = require("./routes/holidayRoutes");
 const ssoRoutes = require('./routes/ssoRoutes');
+const teamRoutes = require('./Modules/teams');
+const groupChatRoutes = require('./Modules/groupChat');
+const { runMigrations } = require('./utils/dbMigrations');
 
 const app = express();
 
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:3001")
+const allowedOrigins = ("https://teamflow.bedatatech.com")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -58,11 +61,13 @@ app.use("/api", userRoutes);
 app.use("/api", authRoutes);
 app.use('/api', ssoRoutes);
 app.use("/api", issueRoutes);
-app.use("/api", projectRoutes)
+app.use("/api", projectRoutes);
 app.use("/api", reportRoutes);
 app.use("/api", statusReportRoutes);
 app.use("/api", timeSheetRoutes);
 app.use("/api/calendar", holidayRoutes);
+app.use("/api", teamRoutes);
+app.use("/api", groupChatRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", service: "teamflow-api" });
@@ -80,6 +85,11 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 4000;
+
+runMigrations().catch((error) => {
+  console.warn('Migrations skipped or failed:', error.message || error);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -8,7 +8,6 @@ import { FaFilter } from "react-icons/fa";
 import "./index.css";
 import Loader from "../component/Loader";
 import ErrorComponent from "../component/ErrorComponent";
-import { getUserDataFromCookies } from "../utils/cookiesData";
 
 
 const IssuesPage = () => {
@@ -20,7 +19,6 @@ const IssuesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5;
-  const userData = getUserDataFromCookies();
 
   const navigate = useNavigate();
 
@@ -49,12 +47,14 @@ const IssuesPage = () => {
 
   const fetchIssues = async (page, project, search) => {
     try {
-      const response = await getAllIssues(page, itemsPerPage, project, search, userData.id);
+      const response = await getAllIssues(page, itemsPerPage, project, search);
       setIssues(response.issues);
       setTotalPages(response.totalPages);
-      setLoading(false);
     } catch (err) {
       console.error("Failed to fetch issues:", err);
+      setIssues([]);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -20,7 +20,10 @@ const Header = ({ openPopup, closePopup, isPopupOpen }) => {
   };
 
   const handleLogout = () => {
+    Cookies.remove("teamflowToken");
     Cookies.remove("jwtToken");
+    Cookies.remove("token");
+    localStorage.removeItem("userData");
     navigate("/");
   };
 

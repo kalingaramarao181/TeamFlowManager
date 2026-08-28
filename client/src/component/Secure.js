@@ -32,25 +32,32 @@ const Secure = () => {
         console.log(resources);
         
 
-        const allowedNames = new Set(resources.map(r => r.name.toLowerCase()));
-        
+        const allowedNames = new Set(
+          resources.flatMap((r) => [
+            String(r.name || "").toLowerCase(),
+            String(r.resource_key || "").toLowerCase(),
+          ])
+        );
 
         const currentPath = location.pathname.toLowerCase();
 
         const routeToResource = {
-          "/dashboard": "dashboard",
-          "/dashboard/projects": "projects",
-          "/dashboard/reports": "reports",
-          "/dashboard/settings": "settings",
-          "/dashboard/work": "your work",
-          "/dashboard/status": "status",
-          "/team-overview": "team overview",
-          "/performance": "performance"
+          "/dashboard": ["dashboard"],
+          "/dashboard/projects": ["projects"],
+          "/dashboard/reports": ["reports", "all_reports"],
+          "/dashboard/settings": ["settings", "users", "user_management", "resources", "positions"],
+          "/dashboard/work": ["work"],
+          "/dashboard/status": ["status"],
+          "/dashboard/teams": ["teams"],
+          "/dashboard/resources": ["resources"],
+          "/dashboard/positions": ["positions"],
+          "/team-overview": ["teams"],
+          "/performance": ["reports", "all_reports"]
         };
 
-        const resourceName = routeToResource[currentPath];
+        const resourceNames = routeToResource[currentPath] || [];
 
-        if (resourceName && !allowedNames.has(resourceName)) {
+        if (resourceNames.length > 0 && !resourceNames.some((name) => allowedNames.has(name))) {
           setAllowed(false);
         } else {
           setAllowed(true);

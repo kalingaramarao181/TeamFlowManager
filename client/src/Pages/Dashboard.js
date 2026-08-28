@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import Sidebar from "../component/Sidebar";
 import Status from "./StatusPage";
 import ReportsPage from "./ReportsPage";
@@ -15,6 +15,14 @@ import IssueDetails from "./IssueDetails";
 import WeeklyTimesheetPage from "../component/timesheet/WeeklyTimesheetPage";
 import AdminTimesheetReportsPage from "./AdminTimesheetReportsPage";
 import CalendarPage from "./CalendarPage";
+import TeamsPage from "./TeamsPage";
+import ProjectWorkspacePanel from "../component/ProjectWorkspacePanel";
+import AccessManagement from "./AccessManagement";
+
+const ProjectWorkspaceRoute = () => {
+  const { projectId } = useParams();
+  return <ProjectWorkspacePanel projectId={projectId} />;
+};
 
 const Dashboard = () => {
   return (
@@ -30,11 +38,15 @@ const Dashboard = () => {
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectDetailsDemo />} />
+          <Route path="/projects/:projectId/workspace" element={<ProjectWorkspaceRoute />} />
           <Route path="/status" element={<Status />} />
           <Route path="/Reports" element={<ReportsPage />} />
           <Route path="/all-reports" element={<AllReportsPage />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/settings" element={<AccessManagement />} />
+          <Route path="/resources" element={<AccessManagement />} />
+          <Route path="/positions" element={<AccessManagement />} />
           <Route path="/issues" element={<IssuesPage />} />
+          <Route path="/teams" element={<TeamsPage />} />
           <Route path="/pwd" element={<ProjectDetailsDemo/>} />
           <Route path="/issues/:issueId" element={<IssueDetails/>} />
         </Routes>

@@ -6,7 +6,7 @@ const getAllIssues = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
-  const userId = req.query.userId;
+  const userId = req.user.id;
 
   const project = req.query.project || "";
   const searchKey = req.query.searchKey || "";

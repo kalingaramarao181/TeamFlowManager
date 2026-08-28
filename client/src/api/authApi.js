@@ -1,6 +1,20 @@
 import axiosInstance from "./axiosInstance";
 import Cookies from "js-cookie";
 
+const persistAuthToken = (token) => {
+  const options = { expires: 30, sameSite: "Lax" };
+  Cookies.set("teamflowToken", token, options);
+  Cookies.set("jwtToken", token, options);
+  Cookies.set("token", token, options);
+};
+
+export const logoutUser = () => {
+  Cookies.remove("teamflowToken");
+  Cookies.remove("jwtToken");
+  Cookies.remove("token");
+  localStorage.removeItem("userData");
+};
+
 export const loginUser = async (loginDetails, navigate) => {
   try {
     const response = await axiosInstance.post("/login", loginDetails);
@@ -12,8 +26,12 @@ export const loginUser = async (loginDetails, navigate) => {
       throw new Error("Invalid login response");
     }
 
-    Cookies.set("jwtToken", token, { expires: 30 });
-    navigate("/dashboard", { replace: true });
+    persistAuthToken(token);
+    localStorage.setItem("userData", JSON.stringify(userData));
+
+    if (navigate) {
+      navigate("/dashboard", { replace: true });
+    }
 
     return response.data;
   } catch (error) {

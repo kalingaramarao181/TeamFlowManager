@@ -15,7 +15,7 @@
 
 .tf-form-popup {
     background: white;
-    border-radius: 10px;
+    border-radius: 18px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -23,9 +23,25 @@
     padding: 20px;
     position: relative;
     max-height: calc(100dvh - 32px);
-    max-width: 900px;
+    width: auto;
+    min-width: min(320px, 90vw);
+    max-width: min(92vw, 900px);
     overflow: hidden;
-    width: min(900px, 100%);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.2);
+    box-sizing: border-box;
+}
+
+.tf-form-popup-content {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tf-form-popup-content > * {
+    width: 100%;
+    max-width: 100%;
 }
 
 .tf-form-popup-header{
@@ -54,6 +70,7 @@
     .tf-form-popup {
         max-height: calc(100dvh - 16px);
         padding: 14px;
+        min-width: min(300px, 90vw);
     }
 }
 
@@ -61,6 +78,11 @@
     .tf-form-popup {
         max-width: 100%;
         padding: 12px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .tf-form-popup-content {
         width: 100%;
     }
 }

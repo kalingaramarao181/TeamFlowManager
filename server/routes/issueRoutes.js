@@ -1,9 +1,9 @@
-const express = require('express');
+﻿const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const { getAllIssues, getIssuesByProjectId, createIssue, updateIssue, deleteIssue, getIssueById, getIssueStatusByUserId } = require('../controllers/issuesController');
-const { protect, authorize } = require('../middlewares/authMiddleware');
+const { protect, authorize, authorizeResource } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -25,12 +25,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.get('/issues', protect, getAllIssues);
-router.post('/issues', protect, upload.single("attachment"), createIssue);
-router.get('/issues/:issueId', protect, getIssueById);
-router.get('/project/:projectId/issues', protect, getIssuesByProjectId);
-router.put('/issues/:issueId', protect, upload.single("attachment"), updateIssue);
-router.delete('/issues/:issueId', protect, authorize(["admin", "manager"]), deleteIssue);
+router.get('/issues', protect, authorizeResource('issues'), getAllIssues);
+router.post('/issues', protect, authorizeResource('issues','can_create'), upload.single("attachment"), createIssue);
+router.get('/issues/:issueId', protect, authorizeResource('issues'), getIssueById);
+router.get('/project/:projectId/issues', protect, authorizeResource('issues'), getIssuesByProjectId);
+router.put('/issues/:issueId', protect, authorizeResource('issues','can_edit'), upload.single("attachment"), updateIssue);
+router.delete('/issues/:issueId', protect, authorizeResource('issues','can_delete'), deleteIssue);
 
 
 module.exports = router;
+

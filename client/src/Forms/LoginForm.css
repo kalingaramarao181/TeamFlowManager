@@ -1,159 +1,144 @@
+.tfm-auth-card {
+  width: min(100%, 430px);
+  margin: 0 auto;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 22px;
+  box-shadow: 0 20px 42px rgba(15, 23, 42, 0.08);
+  padding: 1.5rem 1.2rem;
+  box-sizing: border-box;
+}
+
+.tfm-auth-inner {
+  width: 100%;
+}
+
 .tfm-login-heading {
-    font-size: 2rem;
-    margin: 0px;
-    color: #010433;
-    width: 360px;
-    text-align: center;
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  margin: 0 0 1.2rem;
+  color: #0f172a;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: -0.05em;
 }
 
-.tfm-login-form{
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 400px;
-    color: #010433;
+.tfm-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.4rem 0.2rem;
+  color: #0f172a;
+  box-sizing: border-box;
 }
 
-.tfm-login-label{
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #010433;
+.tfm-login-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #334155;
 }
 
-.tfm-login-input{
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    color: #010433;
+.tfm-login-input {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  font-size: 0.98rem;
+  color: #0f172a;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.tfm-login-input:focus{
-    outline: none;
-    border-color: #010433;
+.tfm-login-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  background: #fff;
 }
 
 .login-popup-login-button {
-    background: linear-gradient(90deg, #010975, #010433);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin-top: 0.2rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #0f172a);
+  color: white;
+  padding: 0.95rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.18);
 }
 
 .login-popup-login-button:hover {
-    background-color: #050d7c;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
 }
 
+.login-popup-login-button:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
 
-.student-signup-content {
-    margin: 0 auto;
-    padding: 20px;
-    margin-bottom: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    width: 50%;
-    height: 70%;
-    overflow-y: auto;
-  }
+.login-error-message {
+  margin: 0.75rem 0 0;
+  color: #dc2626;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+}
 
-  .student-signup-content::-webkit-scrollbar {
-    width: 3px;
-  }
-  
-  .student-signup-content::-webkit-scrollbar-thumb {
-    background-color: #010433;
-    border-radius: 10px;
-  }
-  
-  .student-signup-content::-webkit-scrollbar-thumb:hover {
-    background-color: #999;
-  }
+.tfm-edu-mandatory {
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-left: 2px;
+}
 
-  .login-error-message {
-    font-size: 0.9rem;
-    margin: 0px;
-    color: red;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
+.tfm-signup-button {
+  background: transparent;
+  color: #1d4ed8;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
 
-  .tfm-edu-mandatory{
-    color: red;
-    font-size: 0.8rem;
-    margin-left: 2px;
-  }
+.tfm-signup-button:hover {
+  color: #1e40af;
+}
 
-  @media (max-width: 768px) {
+.tfm-auth-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.9rem;
+  color: #475569;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 640px) {
   .tfm-login-heading {
-    font-size: 1.5rem;
-    width: 100%;
-    padding: 0 1rem;
+    margin-bottom: 1rem;
   }
 
   .tfm-login-form {
-    padding: 15px;
-    max-width: 100%;
-    width: 90%;
-    margin: 0 auto;
+    gap: 0.75rem;
   }
 
-  .tfm-login-input {
-    font-size: 0.95rem;
-    padding: 8px;
-  }
-
+  .tfm-login-input,
   .login-popup-login-button {
-    padding: 10px;
-    font-size: 1rem;
-  }
-
-  .student-signup-content {
-    width: 90%;
-    height: auto;
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .tfm-login-heading {
-    font-size: 1.3rem;
-  }
-
-  .tfm-login-form {
-    padding: 1rem;
-  }
-
-  .login-popup-login-button {
-    padding: 8px;
+    padding: 0.82rem 0.9rem;
     font-size: 0.95rem;
-    border-radius: 20px;
   }
 
-  .tfm-login-input {
-    padding: 8px;
-    font-size: 0.9rem;
-  }
-
-  .login-error-message {
+  .tfm-auth-footer {
     font-size: 0.85rem;
+    line-height: 1.6;
   }
 }
 
-.tfm-signup-button{
-    background-color: transparent;
-    color: rgb(14, 1, 61);
-    padding: 8px 16px;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-}

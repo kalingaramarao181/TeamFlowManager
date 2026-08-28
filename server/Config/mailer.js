@@ -1,12 +1,15 @@
 const nodemailer = require("nodemailer");
 
+const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
+const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
+
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: smtpUser,
+      pass: smtpPass,
     },
     tls: {
       rejectUnauthorized: false,
@@ -15,7 +18,7 @@ const transporter = nodemailer.createTransport({
 
 exports.sendEmail = (to, subject, text) => {
     return transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: smtpUser,
         to,
         subject,
         text,
@@ -24,7 +27,7 @@ exports.sendEmail = (to, subject, text) => {
 
 exports.sendHTMLEmail = (to, subject, htmlContent) => {
   return transporter.sendMail({
-    from: `"Beedata Technologies" <${process.env.SMTP_USER}>`,
+    from: `"Beedata Technologies" <${smtpUser}>`,
     to,
     subject,
     html: htmlContent,

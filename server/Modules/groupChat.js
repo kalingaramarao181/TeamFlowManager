@@ -3,7 +3,6 @@ const cors = require("cors");
 const router = express.Router();
 const db = require("../Config/connection");
 
-// ✅ Enable CORS
 router.use(
   cors({
     origin: "http://localhost:3000",
@@ -11,7 +10,6 @@ router.use(
   })
 );
 
-// ✅ Fetch chat messages for a project
 router.get("/projects/:projectId/chat", (req, res) => {
   const projectId = req.params.projectId;
 
@@ -32,7 +30,6 @@ router.get("/projects/:projectId/chat", (req, res) => {
   });
 });
 
-// ✅ Add a new chat message
 router.post("/projects/:projectId/chat/:userId", (req, res) => {
   const projectId = req.params.projectId;
   const senderId = req.params.userId;
@@ -65,15 +62,14 @@ router.post("/projects/:projectId/chat/:userId", (req, res) => {
   });
 });
 
-// ✅ Delete a chat message
-router.delete("delete-chat/:messageId", (req, res) => {
+router.delete("/delete-chat/:messageId", (req, res) => {
   const { messageId } = req.params;
 
   const deleteMessageQuery = `DELETE FROM chat_messages WHERE id = ?`;
   db.query(deleteMessageQuery, [messageId], (err, result) => {
     if (err) {
-    console.error("Error deleting chat message:", err.message);
-    return res.status(500).json({ message: "Failed to delete message" });
+      console.error("Error deleting chat message:", err.message);
+      return res.status(500).json({ message: "Failed to delete message" });
     }
 
     if (result.affectedRows === 0) {

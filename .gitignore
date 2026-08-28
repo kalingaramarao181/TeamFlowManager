@@ -8,3 +8,4 @@ client/build/
 Thumbs.db
 team_flow_manager.sql
 *.sql
+!server/database/*.sql

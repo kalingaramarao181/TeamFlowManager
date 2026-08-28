@@ -80,7 +80,7 @@ const AdminTimesheetReportsPage = () => {
     } catch (err) { setError(err.response?.data?.message || "Status could not be updated."); }
   };
   const exportCsv = () => {
-    const rows = [["Employee", "Projects", "Week", "Hours", "Status", "Submitted"]];
+    const rows = [["Employee", "Activities", "Week", "Hours", "Status", "Submitted"]];
     reports.forEach((r) => rows.push([r.name, r.projects, r.week_label, r.total_hours, r.status, dateTime(r.created_at)]));
     const csv = rows.map((row) => row.map((cell) => `"${String(cell ?? "").replaceAll('"', '""')}"`).join(",")).join("\n");
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
@@ -120,10 +120,10 @@ const AdminTimesheetReportsPage = () => {
         </form>
 
         <div className="admin-ts-table-wrap">
-          <table className="admin-ts-table"><thead><tr><th>Employee</th><th>Projects</th><th>Week range</th><th>Entries</th><th>Total</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+          <table className="admin-ts-table"><thead><tr><th>Employee</th><th>Activities</th><th>Week range</th><th>Entries</th><th>Total</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
             <tbody>{!loading && reports.map((report) => <tr key={report.id}>
               <td data-label="Employee"><strong>{report.name}</strong><small>ID {report.user_id}</small></td>
-              <td data-label="Projects">{report.projects || "—"}</td><td data-label="Week">{report.week_label}</td>
+              <td data-label="Activities">{report.projects || "—"}</td><td data-label="Week">{report.week_label}</td>
               <td data-label="Entries">{report.entry_count}</td><td data-label="Total"><strong>{number(report.total_hours).toFixed(1)}h</strong></td>
               <td data-label="Status"><span className={`admin-ts-status ${String(report.status).toLowerCase()}`}>{report.status}</span></td>
               <td data-label="Submitted">{dateTime(report.created_at)}</td>
@@ -148,8 +148,8 @@ const TimesheetDetail = ({ rows, onClose, onStatus }) => {
   const first = rows[0]; const total = rows.reduce((sum, row) => sum + number(row.total_hours), 0);
   const days = [["Mon", "mon_hours"], ["Tue", "tue_hours"], ["Wed", "wed_hours"], ["Thu", "thu_hours"], ["Fri", "fri_hours"], ["Sat", "sat_hours"], ["Sun", "sun_hours"]];
   return <><header className="admin-ts-drawer-head"><div><span>WEEK {first.week_no} · {first.year}</span><h2>{first.employee_name}</h2><p>{first.email}</p></div><button onClick={onClose}><FiX /></button></header>
-    <div className="admin-ts-detail-summary"><div><small>Weekly total</small><strong>{total.toFixed(1)}h</strong></div><div><small>Projects</small><strong>{new Set(rows.map((r) => r.project_id)).size}</strong></div><div><small>Status</small><span className={`admin-ts-status ${first.status.toLowerCase()}`}>{first.status}</span></div></div>
-    <div className="admin-ts-detail-list">{rows.map((row) => <article key={row.id}><div><h3>{row.project_name}</h3><p>{row.task_name}</p><small>{row.worked_on}</small></div><div className="admin-ts-day-hours">{days.map(([label, key]) => <span key={key}><small>{label}</small><b>{number(row[key])}h</b></span>)}</div></article>)}</div>
+    <div className="admin-ts-detail-summary"><div><small>Weekly total</small><strong>{total.toFixed(1)}h</strong></div><div><small>Activities</small><strong>{new Set(rows.map((r) => r.project_name)).size}</strong></div><div><small>Status</small><span className={`admin-ts-status ${first.status.toLowerCase()}`}>{first.status}</span></div></div>
+    <div className="admin-ts-detail-list">{rows.map((row) => <article key={row.id}><div><h3>{row.project_name}</h3><p>{row.task_name}</p><small>{(row.entry_type || "project").toUpperCase()}</small><small>{row.worked_on}</small></div><div className="admin-ts-day-hours">{days.map(([label, key]) => <span key={key}><small>{label}</small><b>{number(row[key])}h</b></span>)}</div></article>)}</div>
     {first.status === "Pending" && <footer className="admin-ts-drawer-actions"><button className="reject" onClick={() => onStatus(first.id, "Rejected")}><FiXCircle /> Reject</button><button className="approve" onClick={() => onStatus(first.id, "Approved")}><FiCheckCircle /> Approve week</button></footer>}
   </>;
 };

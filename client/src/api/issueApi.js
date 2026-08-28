@@ -1,13 +1,12 @@
 import axiosInstance from "./axiosInstance";
 
-export const getAllIssues = async (page = 1, limit = 10, project = "", searchKey = "", userId) => {
+export const getAllIssues = async (page = 1, limit = 10, project = "", searchKey = "") => {
   try {
     const params = new URLSearchParams({
       page,
       limit,
       ...(project && project !== "all" ? { project } : {}),
-      ...(searchKey ? { searchKey } : {}),
-      userId
+      ...(searchKey ? { searchKey } : {})
     });
 
     const response = await axiosInstance.get(`/issues?${params.toString()}`);
