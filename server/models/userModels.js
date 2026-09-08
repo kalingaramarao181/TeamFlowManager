@@ -490,13 +490,19 @@ const User = {
   savePositionPermissionMatrix: (positionId, rows) => new Promise((resolve, reject) => {
     db.beginTransaction((beginError) => {
       if (beginError) return reject(beginError);
-      const sql=`INSERT INTO position_permissions(position_id,resource_id,can_view,can_create,can_edit,can_delete,can_assign)
-        VALUES(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE can_view=VALUES(can_view),can_create=VALUES(can_create),
-        can_edit=VALUES(can_edit),can_delete=VALUES(can_delete),can_assign=VALUES(can_assign)`;
       let pending=rows.length;if(!pending)return db.commit((e)=>e?reject(e):resolve());
-      let failed=false;rows.forEach((row)=>db.query(sql,[positionId,row.resource_id,...['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]?1:0)],(e)=>{
-        if(failed)return;if(e){failed=true;return db.rollback(()=>reject(e));}if(!--pending)db.commit((ce)=>ce?reject(ce):resolve());
-      }));
+      let failed=false;
+      const finish=(error)=>{if(failed)return;if(error){failed=true;return db.rollback(()=>reject(error));}if(!--pending)db.commit((commitError)=>commitError?reject(commitError):resolve());};
+      rows.forEach((row)=>{
+        const values=['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]?1:0);
+        db.query(`UPDATE position_permissions SET can_view=?,can_create=?,can_edit=?,can_delete=?,can_assign=?
+          WHERE position_id=? AND resource_id=?`,[...values,positionId,row.resource_id],(updateError,result)=>{
+          if(updateError)return finish(updateError);
+          if(result.affectedRows)return finish();
+          db.query(`INSERT INTO position_permissions(position_id,resource_id,can_view,can_create,can_edit,can_delete,can_assign)
+            VALUES(?,?,?,?,?,?,?)`,[positionId,row.resource_id,...values],finish);
+        });
+      });
     });
   }),
 
@@ -512,9 +518,18 @@ const User = {
   saveUserPermissionMatrix: (userId, rows, assignedBy) => new Promise((resolve, reject) => {
     db.beginTransaction((beginError) => {
       if(beginError)return reject(beginError);let pending=rows.length;if(!pending)return db.commit((e)=>e?reject(e):resolve());let failed=false;
-      const upsert=`INSERT INTO user_permissions(user_id,resource_id,can_view,can_create,can_edit,can_delete,can_assign,assigned_by)
-        VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE can_view=VALUES(can_view),can_create=VALUES(can_create),can_edit=VALUES(can_edit),can_delete=VALUES(can_delete),can_assign=VALUES(can_assign),assigned_by=VALUES(assigned_by)`;
-      rows.forEach((row)=>{const values=['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]===null||row[`can_${a}`]===undefined?null:(row[`can_${a}`]?1:0));const empty=values.every(v=>v===null);const sql=empty?'DELETE FROM user_permissions WHERE user_id=? AND resource_id=?':upsert;const params=empty?[userId,row.resource_id]:[userId,row.resource_id,...values,assignedBy];db.query(sql,params,(e)=>{if(failed)return;if(e){failed=true;return db.rollback(()=>reject(e));}if(!--pending)db.commit((ce)=>ce?reject(ce):resolve());});});
+      const finish=(error)=>{if(failed)return;if(error){failed=true;return db.rollback(()=>reject(error));}if(!--pending)db.commit((commitError)=>commitError?reject(commitError):resolve());};
+      rows.forEach((row)=>{
+        const values=['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]===null||row[`can_${a}`]===undefined?null:(row[`can_${a}`]?1:0));
+        if(values.every(v=>v===null))return db.query('DELETE FROM user_permissions WHERE user_id=? AND resource_id=?',[userId,row.resource_id],finish);
+        db.query(`UPDATE user_permissions SET can_view=?,can_create=?,can_edit=?,can_delete=?,can_assign=?,assigned_by=?
+          WHERE user_id=? AND resource_id=?`,[...values,assignedBy,userId,row.resource_id],(updateError,result)=>{
+          if(updateError)return finish(updateError);
+          if(result.affectedRows)return finish();
+          db.query(`INSERT INTO user_permissions(user_id,resource_id,can_view,can_create,can_edit,can_delete,can_assign,assigned_by)
+            VALUES(?,?,?,?,?,?,?,?)`,[userId,row.resource_id,...values,assignedBy],finish);
+        });
+      });
     });
   }),
 
