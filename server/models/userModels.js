@@ -488,15 +488,18 @@ const User = {
      ORDER BY r.name`, [positionId], (e, rows) => e ? reject(e) : resolve(rows))),
 
   savePositionPermissionMatrix: (positionId, rows) => new Promise((resolve, reject) => {
-    db.beginTransaction((beginError) => {
-      if (beginError) return reject(beginError);
+    db.getConnection((connectionError, connection) => {
+      if (connectionError) return reject(connectionError);
+      connection.beginTransaction((beginError) => {
+      if (beginError) { connection.release(); return reject(beginError); }
       const sql=`INSERT INTO position_permissions(position_id,resource_id,can_view,can_create,can_edit,can_delete,can_assign)
         VALUES(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE can_view=VALUES(can_view),can_create=VALUES(can_create),
         can_edit=VALUES(can_edit),can_delete=VALUES(can_delete),can_assign=VALUES(can_assign)`;
-      let pending=rows.length;if(!pending)return db.commit((e)=>e?reject(e):resolve());
-      let failed=false;rows.forEach((row)=>db.query(sql,[positionId,row.resource_id,...['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]?1:0)],(e)=>{
-        if(failed)return;if(e){failed=true;return db.rollback(()=>reject(e));}if(!--pending)db.commit((ce)=>ce?reject(ce):resolve());
+      let pending=rows.length;if(!pending)return connection.commit((e)=>{connection.release();return e?reject(e):resolve();});
+      let failed=false;rows.forEach((row)=>connection.query(sql,[positionId,row.resource_id,...['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]?1:0)],(e)=>{
+        if(failed)return;if(e){failed=true;return connection.rollback(()=>{connection.release();reject(e);});}if(!--pending)connection.commit((ce)=>{connection.release();return ce?reject(ce):resolve();});
       }));
+      });
     });
   }),
 
@@ -510,11 +513,14 @@ const User = {
     [userId], (e, rows) => e ? reject(e) : resolve(rows))),
 
   saveUserPermissionMatrix: (userId, rows, assignedBy) => new Promise((resolve, reject) => {
-    db.beginTransaction((beginError) => {
-      if(beginError)return reject(beginError);let pending=rows.length;if(!pending)return db.commit((e)=>e?reject(e):resolve());let failed=false;
+    db.getConnection((connectionError, connection) => {
+      if(connectionError)return reject(connectionError);
+      connection.beginTransaction((beginError) => {
+      if(beginError){connection.release();return reject(beginError);}let pending=rows.length;if(!pending)return connection.commit((e)=>{connection.release();return e?reject(e):resolve();});let failed=false;
       const upsert=`INSERT INTO user_permissions(user_id,resource_id,can_view,can_create,can_edit,can_delete,can_assign,assigned_by)
         VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE can_view=VALUES(can_view),can_create=VALUES(can_create),can_edit=VALUES(can_edit),can_delete=VALUES(can_delete),can_assign=VALUES(can_assign),assigned_by=VALUES(assigned_by)`;
-      rows.forEach((row)=>{const values=['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]===null||row[`can_${a}`]===undefined?null:(row[`can_${a}`]?1:0));const empty=values.every(v=>v===null);const sql=empty?'DELETE FROM user_permissions WHERE user_id=? AND resource_id=?':upsert;const params=empty?[userId,row.resource_id]:[userId,row.resource_id,...values,assignedBy];db.query(sql,params,(e)=>{if(failed)return;if(e){failed=true;return db.rollback(()=>reject(e));}if(!--pending)db.commit((ce)=>ce?reject(ce):resolve());});});
+      rows.forEach((row)=>{const values=['view','create','edit','delete','assign'].map(a=>row[`can_${a}`]===null||row[`can_${a}`]===undefined?null:(row[`can_${a}`]?1:0));const empty=values.every(v=>v===null);const sql=empty?'DELETE FROM user_permissions WHERE user_id=? AND resource_id=?':upsert;const params=empty?[userId,row.resource_id]:[userId,row.resource_id,...values,assignedBy];connection.query(sql,params,(e)=>{if(failed)return;if(e){failed=true;return connection.rollback(()=>{connection.release();reject(e);});}if(!--pending)connection.commit((ce)=>{connection.release();return ce?reject(ce):resolve();});});});
+      });
     });
   }),
 
